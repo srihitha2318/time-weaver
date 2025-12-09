@@ -19,10 +19,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/auth" element={<Auth />} />
 
-        {/* Protected Dashboard (we will protect later) */}
+        {/* Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Fallback 404 */}
+        {/* Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -20,12 +20,14 @@ export const AuthForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate auth - in production, this would use Supabase
+    // temporary auth
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // For demo, store auth state in localStorage
-    localStorage.setItem("timetrack_user", JSON.stringify({ email, name: name || email.split("@")[0] }));
-    
+    localStorage.setItem("timetrack_user", JSON.stringify({
+      email,
+      name: name || email.split("@")[0],
+    }));
+
     toast.success(isLogin ? "Welcome back!" : "Account created successfully!");
     setIsLoading(false);
     navigate("/dashboard");
@@ -33,7 +35,7 @@ export const AuthForm = () => {
 
   return (
     <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
-      {/* Background decorations */}
+      {/* Background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 -left-20 w-60 h-60 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
@@ -50,28 +52,26 @@ export const AuthForm = () => {
 
         <Card className="glass shadow-xl animate-scale-in">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">{isLogin ? "Welcome back" : "Create account"}</CardTitle>
+            <CardTitle className="text-2xl">
+              {isLogin ? "Welcome back" : "Create account"}
+            </CardTitle>
             <CardDescription>
-              {isLogin
-                ? "Sign in to continue tracking your time"
-                : "Start optimizing your 24 hours today"}
+              {isLogin ?
+                "Sign in to continue tracking your time" :
+                "Start optimizing your 24 hours today"
+              }
             </CardDescription>
           </CardHeader>
+
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+
               {!isLogin && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input
-                      id="name"
-                      placeholder="Your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="pl-10"
-                      required={!isLogin}
-                    />
+                    <User className="icon-left" />
+                    <Input id="name" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} required />
                   </div>
                 </div>
               )}
@@ -79,63 +79,27 @@ export const AuthForm = () => {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
-                    required
-                  />
+                  <Mail className="icon-left" />
+                  <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
-                    required
-                    minLength={6}
-                  />
+                  <Lock className="icon-left" />
+                  <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                variant="gradient"
-                className="w-full"
-                size="lg"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    {isLogin ? "Sign In" : "Create Account"}
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+              <Button type="submit" className="w-full" variant="gradient" disabled={isLoading}>
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>{isLogin ? "Sign In" : "Create Account"} <ArrowRight className="w-4 h-4" /></>}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {isLogin
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
+              <button type="button" onClick={() => setIsLogin(!isLogin)} className="text-sm text-muted-foreground hover:text-primary">
+                {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
               </button>
             </div>
           </CardContent>
